@@ -44,7 +44,9 @@ button:active{transform:scale(.94)}
 .pill button.on{background:var(--acc);color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.45)}
 .pop button,.mbox button,.box button,#selBar button,#xfBar button,.screen button:not(.card),.screen .btn,.pop .btn{background:var(--glass2);border:1px solid rgba(255,255,255,.06)}
 button.on{background:var(--acc)!important;color:#fff;border-color:transparent!important}
-button.pri{background:var(--acc)!important;color:#fff;font-weight:600;border:0!important;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+button.pri,.btn.pri{background:var(--acc)!important;color:#fff;font-weight:600;border:0!important;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+.seg .btn{flex:1;min-width:0}
+.filein{display:none}
 button:disabled{opacity:.3}
 .sp{flex:1}
 .lbl{display:flex;justify-content:space-between;color:var(--tx2);font-size:13px;margin-top:8px}.lbl b{color:#fff;font-weight:600}
@@ -203,6 +205,7 @@ body.home>*:not(#bg):not(.screen):not(.modal):not(#toast):not(#intro):not(script
 <symbol id="i-crop" viewBox="0 0 24 24"><path d="M6.5 2.5v13a2 2 0 0 0 2 2h13"/><path d="M2.5 6.5h13a2 2 0 0 1 2 2v13"/></symbol>
 <symbol id="i-resize" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M14 7h3v3M10 17H7v-3M17 7l-4 4M7 17l4-4"/></symbol>
 <symbol id="i-ref" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="8.8" cy="9.5" r="1.7"/><path d="m21 15.5-4.8-4.8L6.5 20"/></symbol>
+<symbol id="i-photo" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="8.5" cy="10" r="1.6"/><path d="m21 15.2-4.6-4.2L7 20"/></symbol>
 <symbol id="i-fit" viewBox="0 0 24 24"><path d="M4 9V5.5A1.5 1.5 0 0 1 5.5 4H9M15 4h3.5A1.5 1.5 0 0 1 20 5.5V9M20 15v3.5a1.5 1.5 0 0 1-1.5 1.5H15M9 20H5.5A1.5 1.5 0 0 1 4 18.5V15"/></symbol>
 <symbol id="i-menu" viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="18.5" cy="12" r="1.2"/></symbol>
 <symbol id="i-close" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></symbol>
@@ -282,6 +285,8 @@ e.addEventListener('pointerdown',function(){e.classList.add('skip')});setTimeout
 </div>
 
 <div class="pop" id="pLayers"><h3><svg class="ic"><use href="#i-layers"/></svg>Layers<span class="sp"></span><button id="lAdd" title="Add layer" aria-label="Add layer"><svg class="ic"><use href="#i-add"/></svg></button></h3>
+ <div class="row" style="margin-top:0"><label class="btn pri" id="lPhoto" style="flex:1" title="Add a photo from your camera roll" aria-label="Add photo"><svg class="ic"><use href="#i-photo"/></svg>Add Photo<input id="photoIn" class="filein" type="file" accept="image/*"></label></div>
+ <div class="row seg" style="margin-top:0"><label class="btn" id="lPhotoInto" title="Place a photo on the current layer" aria-label="Import photo into this layer"><svg class="ic"><use href="#i-ref"/></svg>Into layer<input id="photoInInto" class="filein" type="file" accept="image/*"></label><button id="lXf" title="Move, scale, or rotate this layer" aria-label="Transform layer"><svg class="ic"><use href="#i-resize"/></svg>Transform</button></div>
  <div id="layerList"></div>
  <div class="lbl"><span>Opacity</span><b><span id="lOpV">100</span>%</b></div><input id="lOp" type="range" min="0" max="100" value="100">
  <div class="row"><svg class="ic"><use href="#i-settings"/></svg><select id="lBlend" aria-label="Blend mode"></select></div>
@@ -297,8 +302,9 @@ e.addEventListener('pointerdown',function(){e.classList.add('skip')});setTimeout
  <div class="refs" id="refList"></div><div class="tip" style="margin-top:8px">Tap an image to float it. Drag it anywhere. Long-press to remove.</div></div>
 
 <div class="pop left" id="pFile"><h3><svg class="ic"><use href="#i-menu"/></svg>File</h3>
+ <div class="row" style="margin-top:0"><label class="btn pri" id="fPhoto" style="flex:1" title="Add a photo from your camera roll" aria-label="Add photo"><svg class="ic"><use href="#i-photo"/></svg>Add Photo<input id="photoInFile" class="filein" type="file" accept="image/*"></label></div>
  <div class="row seg"><button id="fPng"><svg class="ic"><use href="#i-export"/></svg>PNG</button><button id="fSave"><svg class="ic"><use href="#i-save"/></svg>Save</button><button id="fTL"><svg class="ic"><use href="#i-tl"/></svg>Time-lapse</button><label class="btn"><svg class="ic"><use href="#i-folder"/></svg>Open<input id="fOpen" type="file" accept=".json,application/json" style="display:none"></label></div>
- <div class="tip">Autosaves on this device. Two fingers: zoom, pan, rotate. Two-finger tap: undo.</div></div>
+ <div class="tip">Add Photo places a picture on a new layer. Autosaves on this device. Two fingers: zoom, pan, rotate. Two-finger tap: undo.</div></div>
 
 <div class="modal" id="mColor"><div class="mbox">
  <div class="hd"><button id="cPick" title="Eyedropper" aria-label="Eyedropper"><svg class="ic"><use href="#i-picker"/></svg></button><span class="sp" style="text-align:center">Colors</span><button class="mclose" aria-label="Close"><svg class="ic"><use href="#i-close"/></svg></button></div>
@@ -335,10 +341,10 @@ e.addEventListener('pointerdown',function(){e.classList.add('skip')});setTimeout
 <div id="refWin"><div class="rh"><button id="rwM" aria-label="Smaller"><svg class="ic"><use href="#i-minus"/></svg></button><button id="rwP" aria-label="Bigger"><svg class="ic"><use href="#i-add"/></svg></button><button id="rwX" aria-label="Close"><svg class="ic"><use href="#i-close"/></svg></button></div><img id="rwImg" alt="reference"></div>
 
 <div id="selBar"><button id="sMove"><svg class="ic"><use href="#i-move"/></svg>Move</button><button id="sCopy"><svg class="ic"><use href="#i-copy"/></svg>Copy</button><button id="sCut"><svg class="ic"><use href="#i-cut"/></svg>Cut</button><button id="sClear"><svg class="ic"><use href="#i-clear"/></svg>Clear</button><button id="sFill"><svg class="ic"><use href="#i-fillsel"/></svg>Fill</button><button id="sDesel"><svg class="ic"><use href="#i-desel"/></svg>Deselect</button></div>
-<div id="xfBar"><div class="tip">Drag on the canvas to move.</div>
- <div class="lbl"><span>Scale</span><b><span id="xfSV">100</span>%</b></div><input id="xfS" type="range" min="10" max="400" value="100">
+<div id="xfBar"><div class="tip" id="xfTip">Drag to move. Pinch or handles to scale and rotate.</div>
+ <div class="lbl"><span>Scale</span><b><span id="xfSV">100</span>%</b></div><input id="xfS" type="range" min="5" max="800" value="100">
  <div class="lbl"><span>Rotate</span><b><span id="xfRV">0</span>°</b></div><input id="xfR" type="range" min="-180" max="180" value="0">
- <div class="row"><button id="xfFlip"><svg class="ic"><use href="#i-flip"/></svg>Flip</button><span class="sp"></span><button id="xfCancel">Cancel</button><button id="xfOk" class="pri"><svg class="ic"><use href="#i-check"/></svg>Apply</button></div></div>
+ <div class="row"><button id="xfFlip"><svg class="ic"><use href="#i-flip"/></svg>Flip</button><span class="sp"></span><button id="xfCancel">Cancel</button><button id="xfOk" class="pri" aria-label="Commit transform"><svg class="ic"><use href="#i-check"/></svg>Apply</button></div></div>
 
 <div id="lib" class="screen">
  <div class="libhd"><img class="logo" alt="TRACE" src="data:image/png;base64,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"><h1>Gallery</h1><span class="sp"></span><div class="pill st"><label class="btn" title="Import project" aria-label="Import project"><svg class="ic"><use href="#i-folder"/></svg><input id="libOpen" type="file" accept=".json,application/json" style="display:none"></label><button id="libNew" title="New canvas" aria-label="New canvas"><svg class="ic"><use href="#i-add"/></svg></button></div></div>
@@ -426,9 +432,14 @@ function processed(i){const ly=LY(),Ly=ly[i];const live=stroking&&!strokeDirect&
   tA.globalCompositeOperation='destination-in';tA.globalAlpha=B.opacity;tA.drawImage(tmpB,0,0);tA.globalAlpha=1}
  tA.globalCompositeOperation='source-over';return tmpA}
 function isShown(i){const ly=LY();if(!ly[i].visible)return false;if(ly[i].clip){for(let j=i-1;j>=0;j--)if(!ly[j].clip)return ly[j].visible}return true}
-function composite(x){x.drawImage(paper,0,0);LY().forEach((Ly,i)=>{if(!isShown(i))return;const c=processed(i);x.globalAlpha=Ly.opacity;x.globalCompositeOperation=Ly.blend;x.drawImage(c,0,0);
-  if(S.xf&&i===pg().active)drawFloat(x);x.globalAlpha=1;x.globalCompositeOperation='source-over'})}
-function drawFloat(x){const f=S.xf;x.save();x.translate(f.cx+f.dx,f.cy+f.dy);x.rotate(f.r);x.scale(f.s*(f.flip?-1:1),f.s);x.drawImage(f.c,-f.cx,-f.cy);x.restore()}
+function composite(x){x.drawImage(paper,0,0);const active=pg()?pg().active:-1;const photoAt=S.xf&&S.xf.photo?LY().findIndex(l=>l.id===S.xf.layerId):-1;LY().forEach((Ly,i)=>{if(!isShown(i))return;
+ const into=S.xf&&S.xf.photo&&S.xf.into&&i===photoAt;const lift=S.xf&&i===(S.xf.photo?photoAt:active);
+ if(into){const base=processed(i);tB.setTransform(1,0,0,1,0,0);tB.globalAlpha=1;tB.globalCompositeOperation='copy';tB.drawImage(base,0,0);tB.globalCompositeOperation='source-over';drawFloat(tB);
+  x.globalAlpha=Ly.opacity;x.globalCompositeOperation=Ly.blend;x.drawImage(tmpB,0,0)}
+ else{const c=processed(i);x.globalAlpha=Ly.opacity;x.globalCompositeOperation=Ly.blend;x.drawImage(c,0,0);if(lift&&!into)drawFloat(x)}
+ x.globalAlpha=1;x.globalCompositeOperation='source-over'})}
+function drawFloat(x){const f=S.xf;if(!f)return;x.save();x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';x.translate(f.cx+f.dx,f.cy+f.dy);x.rotate(f.r);x.scale(f.s*(f.flip?-1:1),f.s);
+ if(f.photo)x.drawImage(f.c,-f.bw/2,-f.bh/2,f.bw,f.bh);else x.drawImage(f.c,-f.cx,-f.cy);x.restore()}
 function render(){raf=0;if(!S.started)return;const d=devicePixelRatio||1;vctx.setTransform(1,0,0,1,0,0);vctx.clearRect(0,0,view.width,view.height);
  vctx.setTransform(d,0,0,d,0,0);vctx.translate(V.x,V.y);vctx.rotate(V.r);vctx.scale(V.s,V.s);vctx.translate(-W/2,-H/2);
  vctx.imageSmoothingEnabled=V.s<2;composite(vctx);
@@ -438,7 +449,7 @@ function render(){raf=0;if(!S.started)return;const d=devicePixelRatio||1;vctx.se
   vctx.lineWidth=lw;vctx.setLineDash([]);vctx.strokeStyle='#000';vctx.stroke();vctx.setLineDash([6/V.s,6/V.s]);vctx.strokeStyle='#fff';vctx.stroke();vctx.setLineDash([])};
  if(S.lassoPts)ants(S.lassoPts,false);
  if(S.sel&&!S.xf)ants(S.sel.pts,true);
- if(S.xf){const f=S.xf;vctx.save();vctx.translate(f.cx+f.dx,f.cy+f.dy);vctx.rotate(f.r);vctx.scale(f.s,f.s);vctx.strokeStyle='#ff5722';vctx.lineWidth=2/V.s/f.s;vctx.setLineDash([8/V.s/f.s,6/V.s/f.s]);vctx.strokeRect(f.bx-f.cx,f.by-f.cy,f.bw,f.bh);vctx.restore();vctx.setLineDash([])}
+ if(S.xf){const f=S.xf;vctx.save();vctx.translate(f.cx+f.dx,f.cy+f.dy);vctx.rotate(f.r);vctx.scale(f.s,f.s);vctx.strokeStyle='#ff5722';vctx.lineWidth=2/V.s/Math.max(.05,f.s);vctx.setLineDash([8/V.s/Math.max(.05,f.s),6/V.s/Math.max(.05,f.s)]);vctx.strokeRect(f.bx-f.cx,f.by-f.cy,f.bw,f.bh);vctx.restore();vctx.setLineDash([]);drawXfHandles(vctx)}
 }
 // colors
 function hexA(h,a){const n=parseInt(h.slice(1),16);return`rgba(${n>>16},${n>>8&255},${n&255},${a})`}
@@ -497,7 +508,7 @@ const MAXU=25;
 function pushUndo(Ly,t='c'){const c=t==='m'?Ly.mctx:Ly.ctx;const u=pg().undo;u.push({id:Ly.id,t,data:c.getImageData(0,0,W,H)});if(u.length>MAXU)u.shift();window.__lastRedo=pg().redo.slice();pg().redo.length=0;ui()}
 function swap(from,to){const e=from.pop();if(!e)return;const Ly=LY().find(l=>l.id===e.id);const c=Ly&&(e.t==='m'?Ly.mctx:Ly.ctx);if(!c){ui();return}
  to.push({id:Ly.id,t:e.t,data:c.getImageData(0,0,W,H)});c.putImageData(e.data,0,0);draw();ui();schedSave();thumbs(Ly)}
-function doUndo(){if(S.xf)return cancelXf();swap(pg().undo,pg().redo)}function doRedo(){swap(pg().redo,pg().undo)}
+function doUndo(){if(S.xf)return cancelXf();swap(pg().undo,pg().redo)}function doRedo(){if(S.xf&&S.xf.photo)return;swap(pg().redo,pg().undo)}
 // pointers
 const pts=new Map();let penSeen=false,gesture=null,last=null,sm=null,dist=0,tapStart=0,tapMoved=false,curPtr=null,curPtrType=null,xfDrag=null;
 function evPos(e){const r=view.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
@@ -510,7 +521,11 @@ view.addEventListener('pointerdown',e=>{e.preventDefault();closePops();
 view.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;Object.assign(pts.get(e.pointerId),evPos(e));
  if(gesture){moveGesture();return}
  if(e.pointerId!==curPtr)return;const p=evPos(e),d=toDoc(p.x,p.y);
- if(xfDrag){S.xf.dx=xfDrag.dx+d.x-xfDrag.x;S.xf.dy=xfDrag.dy+d.y-xfDrag.y;draw();return}
+ if(xfDrag&&S.xf){const f=S.xf;
+  if(xfDrag.mode==='move'){f.dx=xfDrag.dx+d.x-xfDrag.x;f.dy=xfDrag.dy+d.y-xfDrag.y}
+  else if(xfDrag.mode==='rot'){const C={x:f.cx+f.dx,y:f.cy+f.dy};f.r=xfDrag.r+(Math.atan2(d.y-C.y,d.x-C.x)-xfDrag.a0)}
+  else{const C={x:f.cx+xfDrag.dx,y:f.cy+xfDrag.dy};const dist=Math.hypot(d.x-C.x,d.y-C.y);f.s=clampScale(xfDrag.s*dist/xfDrag.dist)}
+  syncXfSliders();draw();return}
  if(S.lassoPts){const q=S.lassoPts[S.lassoPts.length-1];if(Math.hypot(d.x-q[0],d.y-q[1])>2/V.s){S.lassoPts.push([d.x,d.y]);draw()}return}
  if(stroking){const ev=e.getCoalescedEvents?e.getCoalescedEvents():[];for(const c of(ev.length?ev:[e]))moveStroke(c)}});
 function up(e){if(!pts.has(e.pointerId))return;pts.delete(e.pointerId);
@@ -521,19 +536,21 @@ function up(e){if(!pts.has(e.pointerId))return;pts.delete(e.pointerId);
  if(stroking)endStroke()}
 function polyArea(p){let a=0;for(let i=0;i<p.length;i++){const q=p[(i+1)%p.length];a+=p[i][0]*q[1]-q[0]*p[i][1]}return Math.abs(a/2)}
 view.addEventListener('pointerup',up);view.addEventListener('pointercancel',e=>{if(e.pointerId===curPtr){cancelStroke();S.lassoPts=null}up(e)});
-function startGesture(){const[a,b]=[...pts.values()];gesture={a0:{...a},b0:{...b},V0:{...V}}}
+function startGesture(){const[a,b]=[...pts.values()];gesture={a0:{...a},b0:{...b},V0:{...V}};if(S.xf)gesture.xf0={dx:S.xf.dx,dy:S.xf.dy,s:S.xf.s,r:S.xf.r}}
 function moveGesture(){const v=[...pts.values()];if(v.length<2)return;const[a,b]=v,g=gesture;
  const d0=Math.hypot(g.b0.x-g.a0.x,g.b0.y-g.a0.y)||1,d1=Math.hypot(b.x-a.x,b.y-a.y);
  const r0=Math.atan2(g.b0.y-g.a0.y,g.b0.x-g.a0.x),r1=Math.atan2(b.y-a.y,b.x-a.x);
  const m0={x:(g.a0.x+g.b0.x)/2,y:(g.a0.y+g.b0.y)/2},m1={x:(a.x+b.x)/2,y:(a.y+b.y)/2};
  if(Math.abs(d1-d0)>8||Math.hypot(m1.x-m0.x,m1.y-m0.y)>8)tapMoved=true;
+ if(g.xf0&&S.xf){pinchXf(g,a,b,d0,d1);return}
  const ds=Math.max(.02,Math.min(40,g.V0.s*d1/d0))/g.V0.s;let dr=r1-r0;
  const tgt=g.V0.r+dr,sn=Math.round(tgt/(Math.PI/2))*(Math.PI/2);if(Math.abs(tgt-sn)<.06)dr=sn-g.V0.r;
  const ox=g.V0.x-m0.x,oy=g.V0.y-m0.y,c=Math.cos(dr),s=Math.sin(dr);
  V.s=g.V0.s*ds;V.r=g.V0.r+dr;V.x=m1.x+(ox*c-oy*s)*ds;V.y=m1.y+(ox*s+oy*c)*ds;draw()}
 function pr(e){if(e.pointerType==='mouse')return.7;const p=e.pressure;return p>0?p:(e.pointerType==='pen'?.5:.7)}
 function beginStroke(e){const Ly=L();if(!Ly)return;const p=evPos(e),d=toDoc(p.x,p.y);curPtr=e.pointerId;curPtrType=e.pointerType;
- if(S.xf){xfDrag={x:d.x,y:d.y,dx:S.xf.dx,dy:S.xf.dy};return}
+ if(S.xf){const hit=xfHit(d.x,d.y),f=S.xf,C={x:f.cx+f.dx,y:f.cy+f.dy};
+  xfDrag={mode:hit==='rot'?'rot':(hit==='move'?'move':'scale'),x:d.x,y:d.y,dx:f.dx,dy:f.dy,s:f.s,r:f.r,a0:Math.atan2(d.y-C.y,d.x-C.x),dist:Math.max(12/Math.max(V.s,.05),Math.hypot(d.x-C.x,d.y-C.y))};return}
  if(S.tool==='lasso'){S.lassoPts=[[d.x,d.y]];draw();return}
  if(S.tool==='picker'){pick(d);curPtr=null;return}
  if(!Ly.visible){toast('This layer is hidden');curPtr=null;return}
@@ -583,17 +600,78 @@ $('sCopy').onclick=()=>toNewLayer(false);$('sCut').onclick=()=>toNewLayer(true);
 $('sClear').onclick=()=>{const Ly=L();pushUndo(Ly);clearSel(Ly);thumbs(Ly);draw();schedSave()};
 $('sFill').onclick=()=>{const Ly=L();pushUndo(Ly);Ly.ctx.save();Ly.ctx.globalAlpha=S.opacity;Ly.ctx.fillStyle=S.color;Ly.ctx.fill(selPath());Ly.ctx.restore();thumbs(Ly);draw();schedSave()};
 $('sDesel').onclick=()=>setSel(null);
-$('sMove').onclick=()=>{const Ly=L();if(!S.sel)return;pushUndo(Ly);const b=selBox();const c=clipToSel(Ly.c);clearSel(Ly);
+$('sMove').onclick=()=>{const Ly=L();if(!S.sel)return;if(S.xf)return toast('Finish the current transform first');pushUndo(Ly);const b=selBox();const c=clipToSel(Ly.c);clearSel(Ly);
  S.xf={c,layerId:Ly.id,bx:b.x,by:b.y,bw:b.w,bh:b.h,cx:b.x+b.w/2,cy:b.y+b.h/2,dx:0,dy:0,s:1,r:0,flip:false,pts:S.sel.pts};
- $('xfS').value=100;$('xfR').value=0;$('xfSV').textContent=100;$('xfRV').textContent=0;$('selBar').style.display='none';$('xfBar').style.display='flex';draw()};
-$('xfS').oninput=e=>{S.xf.s=e.target.value/100;$('xfSV').textContent=e.target.value;draw()};
-$('xfR').oninput=e=>{S.xf.r=e.target.value*Math.PI/180;$('xfRV').textContent=e.target.value;draw()};
-$('xfFlip').onclick=()=>{S.xf.flip=!S.xf.flip;draw()};
-function applyXf(){const f=S.xf;if(!f)return;const Ly=LY().find(l=>l.id===f.layerId);if(Ly)drawFloat(Ly.ctx);
- const tp=f.pts.map(([x,y])=>{let X=(x-f.cx)*f.s*(f.flip?-1:1),Y=(y-f.cy)*f.s;const c=Math.cos(f.r),s=Math.sin(f.r);return[X*c-Y*s+f.cx+f.dx,X*s+Y*c+f.cy+f.dy]});
- S.xf=null;$('xfBar').style.display='none';setSel(tp);if(Ly)thumbs(Ly);draw();schedSave()}
-function cancelXf(){if(!S.xf)return;const f=S.xf;S.xf=null;$('xfBar').style.display='none';const u=pg().undo,e=u.pop();if(window.__lastRedo){pg().redo=window.__lastRedo;window.__lastRedo=null}if(e){const l=LY().find(x=>x.id===e.id);if(l)l.ctx.putImageData(e.data,0,0)}setSel(f.pts);ui();draw()}
+ showXfBar('Drag to move. Pinch or handles to scale and rotate.')};
+$('xfS').oninput=e=>{if(!S.xf)return;S.xf.s=clampScale(e.target.value/100);$('xfSV').textContent=e.target.value;draw()};
+$('xfR').oninput=e=>{if(!S.xf)return;S.xf.r=e.target.value*Math.PI/180;$('xfRV').textContent=e.target.value;draw()};
+$('xfFlip').onclick=()=>{if(!S.xf)return;S.xf.flip=!S.xf.flip;draw()};
+function applyXf(){const f=S.xf;if(!f)return;if(f.photo&&f.into){const Ly=LY().find(l=>l.id===f.layerId);if(Ly)pushUndo(Ly)}
+ const Ly=LY().find(l=>l.id===f.layerId);
+ if(Ly){if(f.photo){Ly.ctx.save();Ly.ctx.setTransform(1,0,0,1,0,0);Ly.ctx.globalAlpha=1;Ly.ctx.globalCompositeOperation='source-over';drawFloat(Ly.ctx);Ly.ctx.restore()}else drawFloat(Ly.ctx)}
+ let tp=null;if(!f.photo&&f.pts)tp=f.pts.map(([x,y])=>{let X=(x-f.cx)*f.s*(f.flip?-1:1),Y=(y-f.cy)*f.s;const c=Math.cos(f.r),s=Math.sin(f.r);return[X*c-Y*s+f.cx+f.dx,X*s+Y*c+f.cy+f.dy]});
+ S.xf=null;xfDrag=null;$('xfBar').style.display='none';
+ if(f.photo){setSel(null);if(Ly)thumbs(Ly);renderLayers();draw();schedSave();ui();toast(f.into?'Photo placed on this layer':'Photo added');return}
+ setSel(tp);if(Ly)thumbs(Ly);draw();schedSave()}
+function cancelXf(){if(!S.xf)return;const f=S.xf;S.xf=null;xfDrag=null;$('xfBar').style.display='none';
+ if(f.photo){if(f.fresh){const p=pg();const i=p.layers.findIndex(l=>l.id===f.layerId);if(i>=0)p.layers.splice(i,1);p.active=Math.max(0,Math.min(f.prevActive|0,p.layers.length-1));const u=p.undo,last=u[u.length-1];if(last&&last.t==='s')u.pop();renderLayers()}setSel(null);ui();draw();return}
+ const u=pg().undo,e=u.pop();if(window.__lastRedo){pg().redo=window.__lastRedo;window.__lastRedo=null}if(e){const l=LY().find(x=>x.id===e.id);if(l)l.ctx.putImageData(e.data,0,0)}setSel(f.pts||null);ui();draw()}
 $('xfOk').onclick=applyXf;$('xfCancel').onclick=cancelXf;
+function clampScale(s){return Math.max(.05,Math.min(12,s||1))}
+function showXfBar(tip){const f=S.xf;if(!f)return;const el=$('xfS');el.min=5;el.max=800;el.value=Math.round(f.s*100);$('xfR').value=Math.round(f.r*180/Math.PI);
+ $('xfSV').textContent=el.value;$('xfRV').textContent=$('xfR').value;$('xfTip').textContent=tip||'Drag to move. Pinch or handles to scale and rotate.';
+ $('selBar').style.display='none';$('xfBar').style.display='flex';closePops();ui();draw()}
+function syncXfSliders(){if(!S.xf)return;const el=$('xfS'),pct=Math.round(S.xf.s*100);if(pct>+el.max)el.max=String(Math.ceil(pct/10)*10);if(pct<+el.min)el.min=String(Math.max(1,pct));
+ el.value=String(pct);$('xfSV').textContent=pct;let deg=Math.round(S.xf.r*180/Math.PI);deg=(((deg+180)%360)+360)%360-180;$('xfR').value=String(deg);$('xfRV').textContent=deg}
+function xfLocals(f){const hw=f.bw/2,hh=f.bh/2,gap=34/Math.max(1e-3,f.s*Math.max(V.s,.05));
+ return {nw:[-hw,-hh],ne:[hw,-hh],sw:[-hw,hh],se:[hw,hh],n:[0,-hh],e:[hw,0],s:[0,hh],w:[-hw,0],rot:[0,-hh-gap]}}
+function xfToCanvas(lx,ly){const f=S.xf;let x=lx*f.s*(f.flip?-1:1),y=ly*f.s;const c=Math.cos(f.r),s=Math.sin(f.r);return{x:x*c-y*s+f.cx+f.dx,y:x*s+y*c+f.cy+f.dy}}
+function xfHit(px,py){const f=S.xf;if(!f)return 'move';const locs=xfLocals(f),r=28/Math.max(V.s,.05),order=['rot','nw','ne','sw','se','n','e','s','w'];
+ for(const k of order){const q=xfToCanvas(locs[k][0],locs[k][1]);if(Math.hypot(q.x-px,q.y-py)<=r)return k}return 'move'}
+function drawXfHandles(ctx){const f=S.xf;if(!f)return;const locs=xfLocals(f),rad=14/Math.max(V.s,.05);
+ const top=xfToCanvas(0,-f.bh/2),rot=xfToCanvas(locs.rot[0],locs.rot[1]);
+ ctx.save();ctx.setLineDash([]);ctx.strokeStyle='#ff5722';ctx.lineWidth=2/Math.max(V.s,.05);ctx.beginPath();ctx.moveTo(top.x,top.y);ctx.lineTo(rot.x,rot.y);ctx.stroke();
+ for(const k of ['nw','ne','sw','se','n','e','s','w','rot']){const q=xfToCanvas(locs[k][0],locs[k][1]);ctx.beginPath();ctx.arc(q.x,q.y,k==='rot'?rad*1.05:rad,0,Math.PI*2);
+  ctx.fillStyle=k==='rot'?'#ff5722':'#fff';ctx.fill();ctx.lineWidth=2/Math.max(V.s,.05);ctx.strokeStyle=k==='rot'?'#fff':'#ff5722';ctx.stroke()}ctx.restore()}
+function pinchXf(g,a,b,d0,d1){const f=S.xf;if(!f||!g.xf0)return;const k=(d1||1)/(d0||1);let dr=Math.atan2(b.y-a.y,b.x-a.x)-Math.atan2(g.b0.y-g.a0.y,g.b0.x-g.a0.x);
+ const m0=toDoc((g.a0.x+g.b0.x)/2,(g.a0.y+g.b0.y)/2),m1=toDoc((a.x+b.x)/2,(a.y+b.y)/2);
+ const C0x=f.cx+g.xf0.dx,C0y=f.cy+g.xf0.dy,vx=m0.x-C0x,vy=m0.y-C0y,c=Math.cos(dr),s=Math.sin(dr);
+ const vx2=(vx*c-vy*s)*k,vy2=(vx*s+vy*c)*k;
+ f.s=clampScale(g.xf0.s*k);f.r=g.xf0.r+dr;f.dx=(m1.x-vx2)-f.cx;f.dy=(m1.y-vy2)-f.cy;syncXfSliders();draw()}
+function contentBounds(c){const w=c.width,h=c.height,data=c.getContext('2d',{willReadFrequently:true}).getImageData(0,0,w,h).data;
+ let minX=w,minY=h,maxX=-1,maxY=-1;for(let y=0;y<h;y++){const row=y*w*4;for(let x=0;x<w;x++){if(data[row+x*4+3]>8){if(x<minX)minX=x;if(x>maxX)maxX=x;if(y<minY)minY=y;if(y>maxY)maxY=y}}}
+ if(maxX<0)return null;return{x:minX,y:minY,w:maxX-minX+1,h:maxY-minY+1}}
+function beginLayerTransform(){if(!S.started||!L())return;if(S.xf)return toast('Finish the current transform first');
+ const Ly=L();if(!Ly.visible)return toast('This layer is hidden');const b=contentBounds(Ly.c);if(!b)return toast('Nothing on this layer to transform');
+ if(S.maskEdit){S.maskEdit=false;toast('Transforming the layer picture')}
+ pushUndo(Ly);const c=mkCanvas();c.getContext('2d').drawImage(Ly.c,0,0);Ly.ctx.clearRect(0,0,W,H);setSel(null);
+ S.xf={c,layerId:Ly.id,bx:b.x,by:b.y,bw:b.w,bh:b.h,cx:b.x+b.w/2,cy:b.y+b.h/2,dx:0,dy:0,s:1,r:0,flip:false,pts:null,layer:true};
+ showXfBar('Drag to move this layer. Pinch or handles to scale and rotate.')}
+$('lXf').onclick=()=>beginLayerTransform();
+let photoBusy=false;
+function photoName(file){let n=(file&&file.name)||'Photo';n=n.replace(/^.*[\\/]/,'').replace(/\.[^.]+$/,'').replace(/\s+/g,' ').trim();return (n||'Photo').slice(0,40)}
+function prepPhoto(bmp){let w=bmp.width,h=bmp.height;const capSide=Math.min(4096,Math.max(W,H)*2),capPx=8*1024*1024;let k=Math.min(1,capSide/Math.max(w,h));
+ if(w*h*k*k>capPx)k=Math.min(k,Math.sqrt(capPx/(w*h)));const cw=Math.max(1,Math.round(w*k)),ch=Math.max(1,Math.round(h*k));const c=mkCanvas(cw,ch),x=c.getContext('2d');
+ x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';x.drawImage(bmp,0,0,cw,ch);if(typeof bmp.close==='function'){try{bmp.close()}catch(_){}}return c}
+function decodePhoto(file){const orient=o=>{try{return createImageBitmap(file,o)}catch(e){return Promise.reject(e)}};
+ if(window.createImageBitmap)return orient({imageOrientation:'from-image'}).catch(()=>orient({})).catch(()=>decodePhotoImg(file));
+ return decodePhotoImg(file)}
+function decodePhotoImg(file){return new Promise((res,rej)=>{const u=URL.createObjectURL(file),i=new Image();i.onload=()=>{URL.revokeObjectURL(u);res(i)};i.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('unreadable'))};i.src=u})}
+function setPhotoThumb(Ly,src){const t=mkCanvas(88,88),x=t.getContext('2d');const k=Math.min(88/src.width,88/src.height),w=src.width*k,h=src.height*k;x.drawImage(src,(88-w)/2,(88-h)/2,w,h);Ly.thumb=t.toDataURL()}
+async function importPhoto(file,into){if(!S.started||!pg())return toast('Open a canvas first');if(photoBusy)return toast('Still opening a photo');
+ if(S.xf)applyXf();const pageId=pg().id;photoBusy=true;
+ try{let bmp;try{bmp=await decodePhoto(file)}catch(_){toast('Could not open that photo. Try JPEG, PNG, or WebP.');return}
+  if(!bmp||!bmp.width){toast('Could not open that photo.');return}
+  if(!S.started||!pg()||pg().id!==pageId){if(bmp.close)try{bmp.close()}catch(_){}return}
+  const src=prepPhoto(bmp);const k=Math.min((W*.92)/src.width,(H*.92)/src.height),bw=src.width*k,bh=src.height*k,name=photoName(file);
+  let layerId,prevActive=pg().active,fresh=false;
+  if(into){const Ly=L();if(!Ly||!Ly.visible){toast(Ly?'This layer is hidden':'No layer');return}if(S.maskEdit)S.maskEdit=false;layerId=Ly.id}
+  else{if(LY().length>=12)return toast('Max 12 layers (iPhone memory)');if(window.pushStruct)window.pushStruct();const n=newLayer(name);setPhotoThumb(n,src);LY().splice(pg().active+1,0,n);pg().active++;layerId=n.id;fresh=true;renderLayers()}
+  S.sel=null;S.xf={photo:true,into:!!into,fresh,name,layerId,prevActive,c:src,bw,bh,bx:W/2-bw/2,by:H/2-bh/2,cx:W/2,cy:H/2,dx:0,dy:0,s:1,r:0,flip:false,pts:null};
+  showXfBar((into?'On this layer · ':'New layer · ')+name+' — drag to move, pinch or handles to scale and rotate')}
+ finally{photoBusy=false}}
+function bindPhoto(id,into){const el=$(id);if(!el)return;el.onchange=e=>{const f=e.target.files&&e.target.files[0];e.target.value='';if(f)importPhoto(f,into)}}
+bindPhoto('photoIn',false);bindPhoto('photoInFile',false);bindPhoto('photoInInto',true);
 // UI
 function toast(m){const t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',1600)}
 function closePops(){document.querySelectorAll('.pop.show').forEach(p=>p.classList.remove('show'))}
@@ -655,9 +733,9 @@ function renderLayers(){if(!pg())return;const ll=$('layerList');ll.innerHTML='';
  const bn=document.createElement('b');bn.textContent=l.name;const bm=document.createElement('small');bm.textContent=BLENDS.find(b=>b[0]===l.blend)[1]+(l.opacity<1?' · '+Math.round(l.opacity*100)+'%':'');nm.append(bn,bm);
  if(l.mask&&!l.mthumb){const t=mkCanvas(88,88),x=t.getContext('2d'),k=Math.min(88/W,88/H);x.fillStyle='#000';x.fillRect((88-W*k)/2,(88-H*k)/2,W*k,H*k);x.drawImage(l.mask,(88-W*k)/2,(88-H*k)/2,W*k,H*k);l.mthumb=t.toDataURL()}
  const mk=document.createElement('img');mk.alt='';mk.className='mk'+(l.maskOn?'':' off');if(l.mask&&l.mthumb)mk.src=l.mthumb;mk.title='Mask';
- const v=document.createElement('button');v.className='eye'+(l.visible?'':' hid');v.setAttribute('aria-label',l.visible?'Hide layer':'Show layer');v.innerHTML=ic(l.visible?'eye':'eyeoff');v.onclick=ev=>{ev.stopPropagation();l.visible=!l.visible;renderLayers();draw();schedSave()};
+ const v=document.createElement('button');v.className='eye'+(l.visible?'':' hid');v.setAttribute('aria-label',l.visible?'Hide layer':'Show layer');v.innerHTML=ic(l.visible?'eye':'eyeoff');v.onclick=ev=>{ev.stopPropagation();if(S.xf&&S.xf.photo){toast('Tap the check to place the photo first');return}l.visible=!l.visible;renderLayers();draw();schedSave()};
  if(l.clip){const ci=document.createElement('span');ci.className='clipi';ci.innerHTML=ic('clip','s');r.append(ci)}
- r.append(im);if(l.mask)r.append(mk);r.append(nm,v);r.onclick=()=>{pg().active=i;if(!l.mask)S.maskEdit=false;renderLayers()};ll.appendChild(r)}
+ r.append(im);if(l.mask)r.append(mk);r.append(nm,v);r.onclick=()=>{if(S.xf&&S.xf.photo){toast('Tap the check to place the photo first');return}pg().active=i;if(!l.mask)S.maskEdit=false;renderLayers()};ll.appendChild(r)}
  const a=L();$('lOp').value=Math.round(a.opacity*100);$('lOpV').textContent=Math.round(a.opacity*100);$('lBlend').value=a.blend;
  $('lClip').classList.toggle('on',a.clip);$('lMask').style.display=a.mask?'none':'';$('maskRow').style.display=a.mask?'flex':'none';
  $('lMaskEdit').classList.toggle('on',S.maskEdit);$('lMaskOn').classList.toggle('on',a.maskOn);$('lMaskOn').textContent=a.maskOn?'Mask on':'Mask off';
@@ -766,7 +844,7 @@ function artThumb(){const f=flatten();const k=Math.min(1,360/Math.max(W,H));cons
 async function addArt(name,proj,thumb){const id=newId(),p0=proj.pages[0];const lib=await libGet();lib.unshift({id,name,W:p0.W,H:p0.H,pages:proj.pages.length,updated:Date.now(),thumb:thumb||null});await idbSet('art:'+id,proj);await libPut(lib);return id}
 let saveT=0;function schedSave(){if(!S.started)return;dirty=true;clearTimeout(saveT);saveT=setTimeout(saveNow,1200)}
 let saving=Promise.resolve();
-function saveNow(){if(!S.started||!pg()||!curArt)return saving;const id=curArt;
+function saveNow(){if(!S.started||!pg()||!curArt)return saving;if(S.xf)applyXf();const id=curArt;
  saving=saving.then(async()=>{try{await idbSet('art:'+id,serialize());const lib=await libGet();const e=lib.find(a=>a.id===id);
   if(e){e.W=P.pages[0].W;e.H=P.pages[0].H;e.pages=P.pages.length;e.updated=Date.now();e.thumb=artThumb();lib.splice(lib.indexOf(e),1);lib.unshift(e);await libPut(lib)}
   if(dirty){dirty=false;await captureFrame()}}catch(err){console.warn('autosave failed',err)}});return saving}
@@ -856,7 +934,7 @@ $('tlExp').onclick=tlExport;
  window.pushStruct=function(k){const now=performance.now();if(k&&k===lastK&&now-lastS<800){lastS=now;return}lastK=k||'';lastS=now;const u=pg().undo;u.push(snapS());if(u.length>MAXU)u.shift();pg().redo.length=0;ui()};
  const os=swap;
  swap=function(from,to){const e=from[from.length-1];if(e&&e.t==='s'){from.pop();to.push(snapS());applyS(e);return}os(from,to)};
- const wrap=(id,ev,k)=>{const el=document.getElementById(id);if(!el)return;const f=el[ev];if(!f)return;el[ev]=function(x){pushStruct(k);return f.call(this,x)}};
+ const wrap=(id,ev,k)=>{const el=document.getElementById(id);if(!el)return;const f=el[ev];if(!f)return;el[ev]=function(x){if(S.xf&&S.xf.photo){toast('Tap the check to place the photo first');return}pushStruct(k);return f.call(this,x)}};
  ['lAdd','lDel','lUp','lDn','lDown','lDup','lMerge','lClip','lMask','lMaskDel','lMaskOn','lMaskInv'].forEach(id=>wrap(id,'onclick',null));
  wrap('lBlend','onchange',null);wrap('lOp','oninput','op');
  // three-finger tap = redo (two-finger tap = undo is in pointer code)
